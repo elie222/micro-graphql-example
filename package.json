@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build":
-      "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node dist/index.js",
+    "start": "micro",
+    "dev": "micro-dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "precommit": "lint-staged"
   },
@@ -35,6 +34,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "husky": "^0.14.3",
     "lint-staged": "^5.0.0",
+    "micro-dev": "^2.1.1",
     "prettier": "1.8.2",
     "rimraf": "^2.6.2"
   }

@@ -6,7 +6,8 @@ Note: This example was put together extremely quickly.
 
 ```
 yarn install
-npm start
+npm run dev
+# npm start # for production
 ```
 
 Now visit:
