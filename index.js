@@ -1,21 +1,21 @@
-const micro = require('micro')
-const { send } = micro;
-const { get, post, router } = require('microrouter');
-const { microGraphiql, microGraphql } = require("apollo-server-micro");
-const { makeExecutableSchema } = require('graphql-tools');
-const axios = require('axios');
+import 'babel-polyfill'
+import micro, { send } from 'micro'
+import { get, post, router } from 'microrouter'
+import { microGraphiql, microGraphql } from 'apollo-server-micro'
+import { makeExecutableSchema } from 'graphql-tools'
+import axios from 'axios'
 
 // Some fake data
 const books = [
   {
     title: "Harry Potter and the Sorcerer's stone",
-    author: 'J.K. Rowling'
+    author: 'J.K. Rowling',
   },
   {
     title: 'Jurassic Park',
-    author: 'Michael Crichton'
-  }
-];
+    author: 'Michael Crichton',
+  },
+]
 
 // The GraphQL schema in string form
 const typeDefs = `
@@ -54,35 +54,36 @@ const typeDefs = `
     type: String
     conversionSymbol: String
   }
-`;
+`
 
 // The resolvers
 const resolvers = {
   Query: {
     books: () => books,
     coin: async () => {
-      const url = 'https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&limit=12';
-      
+      const url = 'https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&limit=12'
+
       return await axios
         .get(url)
         .then(response => {
-          console.log('graphql response:', response.data);
-          return response.data;
-        }).catch(err => {
-          console.log('graphql error:', err);
-        });
+          console.log('graphql response:', response.data)
+          return response.data
+        })
+        .catch(err => {
+          console.log('graphql error:', err)
+        })
     },
-  }
-};
+  },
+}
 
 // Put together a schema
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
-});
+  resolvers,
+})
 
-const graphqlHandler = microGraphql({ schema });
-const graphiqlHandler = microGraphiql({ endpointURL: '/graphql' });
+const graphqlHandler = microGraphql({ schema })
+const graphiqlHandler = microGraphiql({ endpointURL: '/graphql' })
 
 const server = micro(
   router(
@@ -91,6 +92,6 @@ const server = micro(
     get('/graphiql', graphiqlHandler),
     (req, res) => send(res, 404, 'not found')
   )
-);
+)
 
-server.listen(3000);
+server.listen(3000)
